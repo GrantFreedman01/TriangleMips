@@ -26,9 +26,12 @@
 		# .include "include/syscall_macros.s"
 		# .include "include/isqrt.s"
 
-			.data
-true_string: .asciiz "True!\n"
-false_string: .asciiz "False!\n"
+	.data
+	
+right_string: .asciiz "Right!\n"
+acute_string: .asciiz "Acute!\n"
+obtuse_string: .asciiz "Obtuse!\n"
+
 
 a_var: .byte 3
 b_var: .byte 6
@@ -80,20 +83,27 @@ main:  nop  # start of my program
 
 
 	nop # select Output
-	beq $s0, $s1, true_block
-	b false_block
+	beq $s0, $s1, right_block
+	bgt $s0, $s1, acute_block
+	blt $s0, $s1, obtuse_block
 	
 	
 	
-true_block:	nop # print "True!"
+right_block:	nop # print "Right!"
 	li $v0, 4
-	la $a0,  true_string
+	la $a0,  right_string
 	syscall
 	b if_done
 
-false_block: 	nop # print "False!"
+acute_block: 	nop # print "Acute!"
 	li $v0, 4
-	la $a0,  false_string
+	la $a0,  acute_string
+	syscall
+	b if_done
+
+obtuse_block: 	nop # print "Obtuse!"
+	li $v0, 4
+	la $a0,  obtuse_string
 	syscall
 	b if_done
 
